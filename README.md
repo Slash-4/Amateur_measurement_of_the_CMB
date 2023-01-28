@@ -1,1 +1,1 @@
-# Amateur_measurement_of_the_CMB
+# Amateur measurement of the CMB
