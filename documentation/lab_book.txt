@@ -1,0 +1,16 @@
+06/03/2023
+
+Partial reception of the experiment material, notably the SDR circuit and supporting element. With the 
+components on hand, a more comprehensive analysis of the design could be made. It was realized that the 
+LNA's which are a part of the microwave dish assembly are inadequate for the purpose of the experiment,
+because they contain a filter for the emission line of hydrogen. This is still ok, because the gain of the 
+LNB is 56-60dB and already contains an LNA, if ever this gain isn't enough we could make a request for a 
+LNA which doesn't include a hydrogen line filter. But this piece missing would slow down our process.
+
+Otherwise the components available are compatible with the experiment. The plan is to mount the 
+SDR, the bias tee and the power supply to a cart then the computer will be able to sit on the cart and 
+take the data from a usb cable. 
+
+\\TODO: 1. Horn antenna assembly
+\\TODO: 2. Receive and add bias tee and LNB to the circuit
+\\TODO: 3. Get a hold of dewar flask and liquid nitrogen for cold load calibration
