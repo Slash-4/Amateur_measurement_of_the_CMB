@@ -14,3 +14,15 @@ take the data from a usb cable.
 \\TODO: 1. Horn antenna assembly
 \\TODO: 2. Receive and add bias tee and LNB to the circuit
 \\TODO: 3. Get a hold of dewar flask and liquid nitrogen for cold load calibration
+
+10/03/2023
+
+Received LNB and bias tee
+Tested bias tee with voltmeter, revealed that bias tee lowers input voltage 12V 0.5A outputs 6.66VDC at 
+RF+DC port, outputs 0.00V at RF port
+
+Airspy r2 connects with software properly, measures environmental/system input as 0.4E-6 dB 
+
+\\TODO: 1. Horn antenna assembly
+\\TODO: 2. Dewar flask insulation foam and liquid nitrogen
+\\TODO: 3. Connect bias tee to LNB
