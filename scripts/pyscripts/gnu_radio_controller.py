@@ -39,6 +39,8 @@ from gnuradio.qtgui import Range, RangeWidget
 from PyQt5 import QtCore
 import datetime
 import numpy as np
+import osmosdr
+import time
 
 
 
@@ -85,54 +87,35 @@ class gnu_radio_controller(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate = 10E6
         self.rho = rho = 1
         self.record_data = record_data = 0
-        self.noise_sys = noise_sys = 1
-        self.noise_cmb = noise_cmb = 1
-        self.noise_atm_zenith = noise_atm_zenith = 1
         self.local_oscillator = local_oscillator = 1.0E9
         self.intermediate_rate = intermediate_rate = 1000
         self.ingest_data = ingest_data = 0
         self.file_write_rate = file_write_rate = 10
-        self.file_path = file_path = '/home/slash/Desktop/Phys 258/Phys_258_Final_Project/Amateur_measurement_of_the_CMB/data/no_file'
+        self.file_path = file_path = '/home/slash/Desktop/Phys 258/Phys_258_Final_Project/Amateur_measurement_of_the_CMB/data/cold_load_foam2'
         self.center_frequency = center_frequency = 1450E6
         self.calibrate = calibrate = 0
         self.average_power = average_power = 3
-        self.T_sys = T_sys = 1
-        self.T_other = T_other = 1
-        self.T_atm = T_atm = 1
+        self.T_sys = T_sys = 0
+        self.T_other = T_other = 0
+        self.T_atm = T_atm = 0
         self.IntegrationTimeShort = IntegrationTimeShort = 0.8
         self.IntegrationTimeLong = IntegrationTimeLong = 8
-        self.IntegrationTime = IntegrationTime = 8
+        self.IntegrationTimeGUI = IntegrationTimeGUI = 8
+        self.IntegrationTime = IntegrationTime = 2
 
         ##################################################
         # Blocks
         ##################################################
         self._rho_tool_bar = Qt.QToolBar(self)
-        self._rho_tool_bar.addWidget(Qt.QLabel("Rho" + ": "))
+        self._rho_tool_bar.addWidget(Qt.QLabel("Rho           " + ": "))
         self._rho_line_edit = Qt.QLineEdit(str(self.rho))
         self._rho_tool_bar.addWidget(self._rho_line_edit)
         self._rho_line_edit.returnPressed.connect(
             lambda: self.set_rho(eng_notation.str_to_num(str(self._rho_line_edit.text()))))
-        self.top_layout.addWidget(self._rho_tool_bar)
-        self._noise_sys_range = Range(0, 10, 0.2, 1, 200)
-        self._noise_sys_win = RangeWidget(self._noise_sys_range, self.set_noise_sys, "System       ", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_grid_layout.addWidget(self._noise_sys_win, 1, 0, 1, 2)
-        for r in range(1, 2):
+        self.top_grid_layout.addWidget(self._rho_tool_bar, 9, 0, 1, 1)
+        for r in range(9, 10):
             self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(0, 2):
-            self.top_grid_layout.setColumnStretch(c, 1)
-        self._noise_cmb_range = Range(0, 10, 0.2, 1, 200)
-        self._noise_cmb_win = RangeWidget(self._noise_cmb_range, self.set_noise_cmb, "CMB            ", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_grid_layout.addWidget(self._noise_cmb_win, 0, 0, 1, 2)
-        for r in range(0, 1):
-            self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(0, 2):
-            self.top_grid_layout.setColumnStretch(c, 1)
-        self._noise_atm_zenith_range = Range(0, 10, 0.2, 1, 200)
-        self._noise_atm_zenith_win = RangeWidget(self._noise_atm_zenith_range, self.set_noise_atm_zenith, "Atm Zenith", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_grid_layout.addWidget(self._noise_atm_zenith_win, 2, 0, 1, 2)
-        for r in range(2, 3):
-            self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(0, 2):
+        for c in range(0, 1):
             self.top_grid_layout.setColumnStretch(c, 1)
         # Create the options list
         self._ingest_data_options = [0, 1]
@@ -158,22 +141,26 @@ class gnu_radio_controller(gr.top_block, Qt.QWidget):
         self._ingest_data_callback(self.ingest_data)
         self._ingest_data_button_group.buttonClicked[int].connect(
             lambda i: self.set_ingest_data(self._ingest_data_options[i]))
-        self.top_grid_layout.addWidget(self._ingest_data_group_box, 6, 1, 1, 1)
+        self.top_grid_layout.addWidget(self._ingest_data_group_box, 6, 0, 1, 1)
         for r in range(6, 7):
             self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(1, 2):
+        for c in range(0, 1):
             self.top_grid_layout.setColumnStretch(c, 1)
         self._file_path_tool_bar = Qt.QToolBar(self)
-        self._file_path_tool_bar.addWidget(Qt.QLabel("T athmosphere" + ": "))
+        self._file_path_tool_bar.addWidget(Qt.QLabel("File path" + ": "))
         self._file_path_line_edit = Qt.QLineEdit(str(self.file_path))
         self._file_path_tool_bar.addWidget(self._file_path_line_edit)
         self._file_path_line_edit.returnPressed.connect(
             lambda: self.set_file_path(str(str(self._file_path_line_edit.text()))))
-        self.top_layout.addWidget(self._file_path_tool_bar)
+        self.top_grid_layout.addWidget(self._file_path_tool_bar, 12, 0, 1, 2)
+        for r in range(12, 13):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(0, 2):
+            self.top_grid_layout.setColumnStretch(c, 1)
         # Create the options list
         self._calibrate_options = [0, 1, 2, 3]
         # Create the labels list
-        self._calibrate_labels = ['No rho', 'Rho calibration', 'Atm calibration', 'Atm calibration+']
+        self._calibrate_labels = ['No rho', 'Rho calibrated', 'T Atm calibration', 'T other calibration']
         # Create the combo box
         # Create the radio buttons
         self._calibrate_group_box = Qt.QGroupBox("Calibration" + ": ")
@@ -194,36 +181,48 @@ class gnu_radio_controller(gr.top_block, Qt.QWidget):
         self._calibrate_callback(self.calibrate)
         self._calibrate_button_group.buttonClicked[int].connect(
             lambda i: self.set_calibrate(self._calibrate_options[i]))
-        self.top_layout.addWidget(self._calibrate_group_box)
+        self.top_grid_layout.addWidget(self._calibrate_group_box, 8, 0, 1, 1)
+        for r in range(8, 9):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(0, 1):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self._T_sys_tool_bar = Qt.QToolBar(self)
         self._T_sys_tool_bar.addWidget(Qt.QLabel("T system" + ": "))
         self._T_sys_line_edit = Qt.QLineEdit(str(self.T_sys))
         self._T_sys_tool_bar.addWidget(self._T_sys_line_edit)
         self._T_sys_line_edit.returnPressed.connect(
             lambda: self.set_T_sys(eng_notation.str_to_num(str(self._T_sys_line_edit.text()))))
-        self.top_layout.addWidget(self._T_sys_tool_bar)
+        self.top_grid_layout.addWidget(self._T_sys_tool_bar, 10, 0, 1, 1)
+        for r in range(10, 11):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(0, 1):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self._T_other_tool_bar = Qt.QToolBar(self)
         self._T_other_tool_bar.addWidget(Qt.QLabel("T other" + ": "))
         self._T_other_line_edit = Qt.QLineEdit(str(self.T_other))
         self._T_other_tool_bar.addWidget(self._T_other_line_edit)
         self._T_other_line_edit.returnPressed.connect(
             lambda: self.set_T_other(eng_notation.str_to_num(str(self._T_other_line_edit.text()))))
-        self.top_layout.addWidget(self._T_other_tool_bar)
+        self.top_grid_layout.addWidget(self._T_other_tool_bar, 10, 1, 1, 1)
+        for r in range(10, 11):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(1, 2):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self._T_atm_tool_bar = Qt.QToolBar(self)
-        self._T_atm_tool_bar.addWidget(Qt.QLabel("T athmosphere" + ": "))
+        self._T_atm_tool_bar.addWidget(Qt.QLabel("T atm   " + ": "))
         self._T_atm_line_edit = Qt.QLineEdit(str(self.T_atm))
         self._T_atm_tool_bar.addWidget(self._T_atm_line_edit)
         self._T_atm_line_edit.returnPressed.connect(
             lambda: self.set_T_atm(eng_notation.str_to_num(str(self._T_atm_line_edit.text()))))
-        self.top_layout.addWidget(self._T_atm_tool_bar)
-        self._IntegrationTime_range = Range(0, 10, 0.2, 8, 200)
-        self._IntegrationTime_win = RangeWidget(self._IntegrationTime_range, self.set_IntegrationTime, "Integration Time", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_grid_layout.addWidget(self._IntegrationTime_win, 6, 0, 1, 1)
-        for r in range(6, 7):
+        self.top_grid_layout.addWidget(self._T_atm_tool_bar, 9, 1, 1, 1)
+        for r in range(9, 10):
             self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(0, 1):
+        for c in range(1, 2):
             self.top_grid_layout.setColumnStretch(c, 1)
-        self.single_pole_iir_filter_xx_0 = filter.single_pole_iir_filter_ff(1/samp_rate*IntegrationTime, 1)
+        self._IntegrationTimeGUI_range = Range(0, 10, 0.2, 8, 200)
+        self._IntegrationTimeGUI_win = RangeWidget(self._IntegrationTimeGUI_range, self.set_IntegrationTimeGUI, "Integration Time", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._IntegrationTimeGUI_win)
+        self.single_pole_iir_filter_xx_0 = filter.single_pole_iir_filter_ff(1/samp_rate*IntegrationTimeGUI, 1)
         # Create the options list
         self._record_data_options = [0, 1]
         # Create the labels list
@@ -248,7 +247,11 @@ class gnu_radio_controller(gr.top_block, Qt.QWidget):
         self._record_data_callback(self.record_data)
         self._record_data_button_group.buttonClicked[int].connect(
             lambda i: self.set_record_data(self._record_data_options[i]))
-        self.top_layout.addWidget(self._record_data_group_box)
+        self.top_grid_layout.addWidget(self._record_data_group_box, 6, 1, 1, 1)
+        for r in range(6, 7):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(1, 2):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_waterfall_sink_x_0 = qtgui.waterfall_sink_c(
             1024, #size
             window.WIN_BLACKMAN_hARRIS, #wintype
@@ -343,8 +346,8 @@ class gnu_radio_controller(gr.top_block, Qt.QWidget):
         self.qtgui_histogram_sink_x_0_0 = qtgui.histogram_sink_f(
             1,
             1000,
-            average_power-std_dev_power*4,
-            average_power+std_dev_power*4,
+            -1,
+            1,
             'Histogram',
             1,
             None # parent
@@ -387,6 +390,22 @@ class gnu_radio_controller(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(1, 2):
             self.top_grid_layout.setColumnStretch(c, 1)
+        self.osmosdr_source_0 = osmosdr.source(
+            args="numchan=" + str(1) + " " + 'airspy=0,bias=0,pack=0'
+        )
+        self.osmosdr_source_0.set_time_source('gpsdo', 0)
+        self.osmosdr_source_0.set_time_unknown_pps(osmosdr.time_spec_t())
+        self.osmosdr_source_0.set_sample_rate(samp_rate)
+        self.osmosdr_source_0.set_center_freq(center_frequency, 0)
+        self.osmosdr_source_0.set_freq_corr(0, 0)
+        self.osmosdr_source_0.set_dc_offset_mode(0, 0)
+        self.osmosdr_source_0.set_iq_balance_mode(0, 0)
+        self.osmosdr_source_0.set_gain_mode(False, 0)
+        self.osmosdr_source_0.set_gain(0, 0)
+        self.osmosdr_source_0.set_if_gain(10, 0)
+        self.osmosdr_source_0.set_bb_gain(10, 0)
+        self.osmosdr_source_0.set_antenna('', 0)
+        self.osmosdr_source_0.set_bandwidth(0, 0)
         self.num_sink_1 = qtgui.number_sink(
             gr.sizeof_float,
             0,
@@ -456,8 +475,8 @@ class gnu_radio_controller(gr.top_block, Qt.QWidget):
 
         self.moving_average.enable_autoscale(False)
         self._moving_average_win = sip.wrapinstance(self.moving_average.qwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._moving_average_win, 7, 1, 1, 1)
-        for r in range(7, 8):
+        self.top_grid_layout.addWidget(self._moving_average_win, 8, 1, 1, 1)
+        for r in range(8, 9):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(1, 2):
             self.top_grid_layout.setColumnStretch(c, 1)
@@ -473,17 +492,11 @@ class gnu_radio_controller(gr.top_block, Qt.QWidget):
         self.blocks_null_sink_0_0 = blocks.null_sink(gr.sizeof_float*1)
         self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_float*1)
         self.blocks_multiply_const_vxx_1 = blocks.multiply_const_ff(rho)
-        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(1)
-        self.blocks_moving_average_xx_0 = blocks.moving_average_ff(1000, 0.001, 4000, 1)
         self.blocks_keep_one_in_n_0_0 = blocks.keep_one_in_n(gr.sizeof_float*1, int(intermediate_rate/file_write_rate))
         self.blocks_keep_one_in_n_0 = blocks.keep_one_in_n(gr.sizeof_float*1, int(samp_rate/intermediate_rate))
         self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_float*1, file_path, True)
         self.blocks_file_sink_0.set_unbuffered(False)
         self.blocks_complex_to_mag_squared_1 = blocks.complex_to_mag_squared(1)
-        self.blocks_add_xx_0 = blocks.add_vcc(1)
-        self.analog_noise_source_x_0_0_0 = analog.noise_source_c(analog.GR_UNIFORM, noise_atm_zenith, 0)
-        self.analog_noise_source_x_0_0 = analog.noise_source_c(analog.GR_UNIFORM, noise_sys, 0)
-        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_UNIFORM, noise_cmb, 0)
         self.analog_const_source_x_1_0_0 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, T_other)
         self.analog_const_source_x_1_0 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, T_atm)
         self.analog_const_source_x_1 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, T_sys)
@@ -495,19 +508,12 @@ class gnu_radio_controller(gr.top_block, Qt.QWidget):
         self.connect((self.analog_const_source_x_1, 0), (self.blocks_sub_xx_0_0, 1))
         self.connect((self.analog_const_source_x_1_0, 0), (self.blocks_sub_xx_0, 1))
         self.connect((self.analog_const_source_x_1_0_0, 0), (self.blocks_sub_xx_0_1, 1))
-        self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 0))
-        self.connect((self.analog_noise_source_x_0_0, 0), (self.blocks_add_xx_0, 1))
-        self.connect((self.analog_noise_source_x_0_0_0, 0), (self.blocks_add_xx_0, 2))
-        self.connect((self.blocks_add_xx_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.blocks_complex_to_mag_squared_1, 0), (self.single_pole_iir_filter_xx_0, 0))
-        self.connect((self.blocks_keep_one_in_n_0, 0), (self.blocks_moving_average_xx_0, 0))
+        self.connect((self.blocks_keep_one_in_n_0, 0), (self.blocks_selector_0, 0))
         self.connect((self.blocks_keep_one_in_n_0, 0), (self.num_sink_1, 0))
         self.connect((self.blocks_keep_one_in_n_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.blocks_keep_one_in_n_0_0, 0), (self.blocks_selector_0_1, 0))
         self.connect((self.blocks_keep_one_in_n_0_0, 0), (self.qtgui_histogram_sink_x_0_0, 0))
-        self.connect((self.blocks_moving_average_xx_0, 0), (self.blocks_selector_0, 0))
-        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.blocks_complex_to_mag_squared_1, 0))
-        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.qtgui_waterfall_sink_x_0, 0))
         self.connect((self.blocks_multiply_const_vxx_1, 0), (self.blocks_sub_xx_0_0, 0))
         self.connect((self.blocks_selector_0, 1), (self.blocks_multiply_const_vxx_1, 0))
         self.connect((self.blocks_selector_0, 0), (self.blocks_null_sink_0, 0))
@@ -521,6 +527,8 @@ class gnu_radio_controller(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_sub_xx_0_0, 0), (self.blocks_selector_0_0, 1))
         self.connect((self.blocks_sub_xx_0_0, 0), (self.blocks_sub_xx_0, 0))
         self.connect((self.blocks_sub_xx_0_1, 0), (self.blocks_selector_0_0, 3))
+        self.connect((self.osmosdr_source_0, 0), (self.blocks_complex_to_mag_squared_1, 0))
+        self.connect((self.osmosdr_source_0, 0), (self.qtgui_waterfall_sink_x_0, 0))
         self.connect((self.single_pole_iir_filter_xx_0, 0), (self.blocks_keep_one_in_n_0, 0))
 
 
@@ -543,7 +551,6 @@ class gnu_radio_controller(gr.top_block, Qt.QWidget):
 
     def set_std_dev_power(self, std_dev_power):
         self.std_dev_power = std_dev_power
-        self.qtgui_histogram_sink_x_0_0.set_x_axis(self.average_power-self.std_dev_power*4, self.average_power+self.std_dev_power*4)
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -551,8 +558,9 @@ class gnu_radio_controller(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.blocks_keep_one_in_n_0.set_n(int(self.samp_rate/self.intermediate_rate))
+        self.osmosdr_source_0.set_sample_rate(self.samp_rate)
         self.qtgui_waterfall_sink_x_0.set_frequency_range(self.center_frequency, self.samp_rate)
-        self.single_pole_iir_filter_xx_0.set_taps(1/self.samp_rate*self.IntegrationTime)
+        self.single_pole_iir_filter_xx_0.set_taps(1/self.samp_rate*self.IntegrationTimeGUI)
 
     def get_rho(self):
         return self.rho
@@ -568,27 +576,6 @@ class gnu_radio_controller(gr.top_block, Qt.QWidget):
     def set_record_data(self, record_data):
         self.record_data = record_data
         self._record_data_callback(self.record_data)
-
-    def get_noise_sys(self):
-        return self.noise_sys
-
-    def set_noise_sys(self, noise_sys):
-        self.noise_sys = noise_sys
-        self.analog_noise_source_x_0_0.set_amplitude(self.noise_sys)
-
-    def get_noise_cmb(self):
-        return self.noise_cmb
-
-    def set_noise_cmb(self, noise_cmb):
-        self.noise_cmb = noise_cmb
-        self.analog_noise_source_x_0.set_amplitude(self.noise_cmb)
-
-    def get_noise_atm_zenith(self):
-        return self.noise_atm_zenith
-
-    def set_noise_atm_zenith(self, noise_atm_zenith):
-        self.noise_atm_zenith = noise_atm_zenith
-        self.analog_noise_source_x_0_0_0.set_amplitude(self.noise_atm_zenith)
 
     def get_local_oscillator(self):
         return self.local_oscillator
@@ -634,6 +621,7 @@ class gnu_radio_controller(gr.top_block, Qt.QWidget):
 
     def set_center_frequency(self, center_frequency):
         self.center_frequency = center_frequency
+        self.osmosdr_source_0.set_center_freq(self.center_frequency, 0)
         self.qtgui_waterfall_sink_x_0.set_frequency_range(self.center_frequency, self.samp_rate)
 
     def get_calibrate(self):
@@ -649,7 +637,6 @@ class gnu_radio_controller(gr.top_block, Qt.QWidget):
 
     def set_average_power(self, average_power):
         self.average_power = average_power
-        self.qtgui_histogram_sink_x_0_0.set_x_axis(self.average_power-self.std_dev_power*4, self.average_power+self.std_dev_power*4)
 
     def get_T_sys(self):
         return self.T_sys
@@ -687,12 +674,18 @@ class gnu_radio_controller(gr.top_block, Qt.QWidget):
     def set_IntegrationTimeLong(self, IntegrationTimeLong):
         self.IntegrationTimeLong = IntegrationTimeLong
 
+    def get_IntegrationTimeGUI(self):
+        return self.IntegrationTimeGUI
+
+    def set_IntegrationTimeGUI(self, IntegrationTimeGUI):
+        self.IntegrationTimeGUI = IntegrationTimeGUI
+        self.single_pole_iir_filter_xx_0.set_taps(1/self.samp_rate*self.IntegrationTimeGUI)
+
     def get_IntegrationTime(self):
         return self.IntegrationTime
 
     def set_IntegrationTime(self, IntegrationTime):
         self.IntegrationTime = IntegrationTime
-        self.single_pole_iir_filter_xx_0.set_taps(1/self.samp_rate*self.IntegrationTime)
 
 
 

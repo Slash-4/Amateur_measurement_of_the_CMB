@@ -34,10 +34,22 @@ options:
 
 blocks:
 - name: IntegrationTime
+  id: variable
+  parameters:
+    comment: ''
+    value: '2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [680, 148.0]
+    rotation: 0
+    state: true
+- name: IntegrationTimeGUI
   id: variable_qtgui_range
   parameters:
     comment: ''
-    gui_hint: 6,0,1,1
+    gui_hint: ''
     label: Integration Time
     min_len: '200'
     orient: QtCore.Qt.Horizontal
@@ -51,9 +63,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [680, 148.0]
+    coordinate: [816, 156.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: IntegrationTimeLong
   id: variable
   parameters:
@@ -82,40 +94,40 @@ blocks:
   id: variable_qtgui_entry
   parameters:
     comment: ''
-    gui_hint: ''
-    label: T athmosphere
+    gui_hint: 9,1,
+    label: 'T atm   '
     type: real
-    value: '1'
+    value: '0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1664, 636.0]
+    coordinate: [1672, 636.0]
     rotation: 0
     state: true
 - name: T_other
   id: variable_qtgui_entry
   parameters:
     comment: ''
-    gui_hint: ''
+    gui_hint: 10,1,
     label: T other
     type: real
-    value: '1'
+    value: '0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1736, 788.0]
+    coordinate: [1744, 788.0]
     rotation: 0
     state: true
 - name: T_sys
   id: variable_qtgui_entry
   parameters:
     comment: ''
-    gui_hint: ''
+    gui_hint: 10,0,
     label: T system
     type: real
-    value: '1'
+    value: '0'
   states:
     bus_sink: false
     bus_source: false
@@ -139,12 +151,12 @@ blocks:
   id: variable_qtgui_chooser
   parameters:
     comment: ''
-    gui_hint: ''
+    gui_hint: 8,0,1,1
     label: Calibration
     label0: No rho
-    label1: Rho calibration
-    label2: Atm calibration
-    label3: Atm calibration+
+    label1: Rho calibrated
+    label2: T Atm calibration
+    label3: T other calibration
     label4: ''
     labels: '[]'
     num_opts: '4'
@@ -181,15 +193,15 @@ blocks:
   id: variable_qtgui_entry
   parameters:
     comment: ''
-    gui_hint: ''
-    label: T athmosphere
+    gui_hint: 12,0,1,2
+    label: File path
     type: string
-    value: /home/slash/Desktop/Phys 258/Phys_258_Final_Project/Amateur_measurement_of_the_CMB/data/no_file
+    value: /home/slash/Desktop/Phys 258/Phys_258_Final_Project/Amateur_measurement_of_the_CMB/data/cold_load_foam2
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2720, 60.0]
+    coordinate: [2712, 52.0]
     rotation: 0
     state: enabled
 - name: file_write_rate
@@ -208,7 +220,7 @@ blocks:
   id: variable_qtgui_chooser
   parameters:
     comment: ''
-    gui_hint: 6,1,1,1
+    gui_hint: 6,0,1,1
     label: Ingest data ?
     label0: Stop
     label1: Start
@@ -262,7 +274,7 @@ blocks:
   id: variable_qtgui_range
   parameters:
     comment: ''
-    gui_hint: 2,0,1,2
+    gui_hint: ''
     label: Atm Zenith
     min_len: '200'
     orient: QtCore.Qt.Horizontal
@@ -278,12 +290,12 @@ blocks:
     bus_structure: null
     coordinate: [40, 932.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: noise_cmb
   id: variable_qtgui_range
   parameters:
     comment: ''
-    gui_hint: 0,0,1,2
+    gui_hint: ''
     label: 'CMB            '
     min_len: '200'
     orient: QtCore.Qt.Horizontal
@@ -299,12 +311,12 @@ blocks:
     bus_structure: null
     coordinate: [48, 676.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: noise_sys
   id: variable_qtgui_range
   parameters:
     comment: ''
-    gui_hint: 1,0,1,2
+    gui_hint: ''
     label: 'System       '
     min_len: '200'
     orient: QtCore.Qt.Horizontal
@@ -320,54 +332,12 @@ blocks:
     bus_structure: null
     coordinate: [48, 804.0]
     rotation: 0
-    state: enabled
-- name: p_cold
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: 'System       '
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '1'
-    step: '0.2'
-    stop: '10'
-    value: '1'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [992, 812.0]
-    rotation: 0
-    state: disabled
-- name: p_hot
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: 'System       '
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '1'
-    step: '0.2'
-    stop: '10'
-    value: '1'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [992, 684.0]
-    rotation: 0
     state: disabled
 - name: record_data
   id: variable_qtgui_chooser
   parameters:
     comment: ''
-    gui_hint: ''
+    gui_hint: 6,1,1,1
     label: Record data ?
     label0: Stop
     label1: Start
@@ -397,8 +367,8 @@ blocks:
   id: variable_qtgui_entry
   parameters:
     comment: ''
-    gui_hint: ''
-    label: Rho
+    gui_hint: 9,0,
+    label: 'Rho           '
     type: real
     value: '1'
   states:
@@ -444,40 +414,6 @@ blocks:
     coordinate: [832, 12.0]
     rotation: 0
     state: true
-- name: analog_const_source_x_0
-  id: analog_const_source_x
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    const: p_hot
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    type: float
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1128, 748.0]
-    rotation: 0
-    state: disabled
-- name: analog_const_source_x_0_0
-  id: analog_const_source_x
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    const: p_cold
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    type: float
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1128, 804.0]
-    rotation: 0
-    state: disabled
 - name: analog_const_source_x_1
   id: analog_const_source_x
   parameters:
@@ -547,7 +483,7 @@ blocks:
     bus_structure: null
     coordinate: [176, 708.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: analog_noise_source_x_0_0
   id: analog_noise_source_x
   parameters:
@@ -566,7 +502,7 @@ blocks:
     bus_structure: null
     coordinate: [176, 828.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: analog_noise_source_x_0_0_0
   id: analog_noise_source_x
   parameters:
@@ -585,7 +521,7 @@ blocks:
     bus_structure: null
     coordinate: [176, 948.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_add_xx_0
   id: blocks_add_xx
   parameters:
@@ -603,7 +539,7 @@ blocks:
     bus_structure: null
     coordinate: [408, 816.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_complex_to_mag_squared_1
   id: blocks_complex_to_mag_squared
   parameters:
@@ -617,7 +553,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [400, 352.0]
+    coordinate: [424, 352.0]
     rotation: 0
     state: enabled
 - name: blocks_file_sink_0
@@ -635,7 +571,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2744, 156.0]
+    coordinate: [2768, 196.0]
     rotation: 0
     state: enabled
 - name: blocks_keep_one_in_n_0
@@ -693,7 +629,7 @@ blocks:
     bus_structure: null
     coordinate: [1080, 324.0]
     rotation: 0
-    state: enabled
+    state: bypassed
 - name: blocks_multiply_const_vxx_0
   id: blocks_multiply_const_vxx
   parameters:
@@ -711,7 +647,7 @@ blocks:
     bus_structure: null
     coordinate: [304, 556.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_multiply_const_vxx_1
   id: blocks_multiply_const_vxx
   parameters:
@@ -833,24 +769,6 @@ blocks:
     coordinate: [2472, 164.0]
     rotation: 0
     state: enabled
-- name: blocks_stream_to_vector_0
-  id: blocks_stream_to_vector
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_items: vec_len
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [520, 456.0]
-    rotation: 0
-    state: disabled
 - name: blocks_sub_xx_0
   id: blocks_sub_xx
   parameters:
@@ -905,24 +823,6 @@ blocks:
     coordinate: [1912, 672.0]
     rotation: 0
     state: true
-- name: calibration_block_0
-  id: calibration_block
-  parameters:
-    T_cold: '200'
-    T_hot: '77'
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_rate: samp_rate
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1384, 764.0]
-    rotation: 0
-    state: disabled
 - name: import_0
   id: import
   parameters:
@@ -978,7 +878,7 @@ blocks:
     factor8: '1'
     factor9: '1'
     graph_type: qtgui.NUM_GRAPH_NONE
-    gui_hint: 7,1,1,1
+    gui_hint: 8,1,1,1
     label1: ''
     label10: ''
     label2: ''
@@ -1024,7 +924,7 @@ blocks:
     bus_structure: null
     coordinate: [32, 620.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: note_0_0
   id: note
   parameters:
@@ -1113,7 +1013,7 @@ blocks:
     bus_structure: null
     coordinate: [1080, 116.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: osmosdr_source_0
   id: osmosdr_source
   parameters:
@@ -1470,7 +1370,7 @@ blocks:
     bus_structure: null
     coordinate: [40, 228.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: qtgui_histogram_sink_x_0_0
   id: qtgui_histogram_sink_x
   parameters:
@@ -1549,8 +1449,8 @@ blocks:
     width7: '1'
     width8: '1'
     width9: '1'
-    xmax: average_power+std_dev_power*4
-    xmin: average_power-std_dev_power*4
+    xmax: '1'
+    xmin: '-1'
   states:
     bus_sink: false
     bus_source: false
@@ -1713,7 +1613,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [392, 212.0]
+    coordinate: [400, 212.0]
     rotation: 0
     state: true
 - name: single_pole_iir_filter_xx_0
@@ -1721,7 +1621,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    alpha: 1/samp_rate*IntegrationTime
+    alpha: 1/samp_rate*IntegrationTimeGUI
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -1731,13 +1631,11 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [600, 348.0]
+    coordinate: [640, 348.0]
     rotation: 0
     state: true
 
 connections:
-- [analog_const_source_x_0, '0', calibration_block_0, '0']
-- [analog_const_source_x_0_0, '0', calibration_block_0, '1']
 - [analog_const_source_x_1, '0', blocks_sub_xx_0_0, '1']
 - [analog_const_source_x_1_0, '0', blocks_sub_xx_0, '1']
 - [analog_const_source_x_1_0_0, '0', blocks_sub_xx_0_1, '1']
