@@ -26,3 +26,18 @@ Airspy r2 connects with software properly, measures environmental/system input a
 \\TODO: 1. Horn antenna assembly
 \\TODO: 2. Dewar flask insulation foam and liquid nitrogen
 \\TODO: 3. Connect bias tee to LNB
+
+
+27/03/2023
+
+Tested software ingest system with the SDR, functions as expected. LNB and power supply ready to be used.
+Horn antenna will be assembled today. The previous testing of the bias tee concluded that only 6V were going
+into the system but this was an error because the voltmeter used was actually calibrated to display half 
+the true voltage, the true voltage was actually 12V and the meter on the power suply is accurate to the load
+delivered.
+
+\\TODO: 1. Dewar flask
+\\TODO: 2. Take measurements
+
+
+Angle recorded +- 0.1deg
