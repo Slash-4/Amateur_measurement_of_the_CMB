@@ -39,5 +39,58 @@ delivered.
 \\TODO: 1. Dewar flask
 \\TODO: 2. Take measurements
 
-
+Ambiant temp 276
 Angle recorded +- 0.1deg
+
+Day two:
+Note today the sun is up and high in the sky might heat up foam
+
+Temperature ambiant: 60F +- 1
+Temperature ambiant: 288.7056K
+
+System functions as expected sun might interfere with measurements
+
+foam temp seems to rize
+Foam temp: 64.5F
+Foam temp: 291.2056K
+
+Hot load 1 ran for 40sec at above temp, may have been undervolted
+
+Foam temp: 66.0F
+Foam temp: 292.0389K
+
+Hot load 2 ran for 1min at above temp, may have been undervolted
+
+For hot load three I decided to place the horn sideways and stuff foam into it to try out that method
+Foam temp: 64.5F
+
+
+Hot load 4 
+Foam temp: 99F
+
+Hot load 5:
+Ground cover aluminium and 
+
+After cold load1 foam was up to 150K
+
+During cold load 2 amps had to be increased
+After cold load2 there was still liquid nitrogen boiling near the surface so we can assume the foam was cold
+
+Cold load 4 added aluminum ground cover with liquid nitrogen on surface and foam in dewar flask
+
+
+Day 2 Sky measurements
+Number Deg Left/Right Deg Up/down
+1. 1.1, 0.6
+2. 2.3, 1.0
+3. 4.0, 1.8
+4. 6.0, 1.8
+5. 7.8, 2.0
+6. 10.6, 1.5
+7. 12.8, 1.8
+8. 15.0, 1.5
+9. 20.1, 1.1
+10. 25.0, 2.0
+11. 30.2, 1.5
+12. 36.1, 0.5
+13. 40.9, 0.2 

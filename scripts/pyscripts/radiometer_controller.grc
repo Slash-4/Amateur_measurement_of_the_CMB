@@ -196,12 +196,12 @@ blocks:
     gui_hint: 12,0,1,2
     label: File path
     type: string
-    value: /home/slash/Desktop/Phys 258/Phys_258_Final_Project/Amateur_measurement_of_the_CMB/data/cold_load_foam2
+    value: /home/slash/Desktop/Phys 258/Phys_258_Final_Project/Amateur_measurement_of_the_CMB/data/day2_skydata13
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2712, 52.0]
+    coordinate: [2712, 60.0]
     rotation: 0
     state: enabled
 - name: file_write_rate
@@ -213,7 +213,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1376, 28.0]
+    coordinate: [1608, 28.0]
     rotation: 0
     state: true
 - name: ingest_data
@@ -1513,7 +1513,7 @@ blocks:
     marker9: '-1'
     name: Radiometer Time Sink
     nconnections: '1'
-    size: '1024'
+    size: '1000'
     srate: intermediate_rate
     stemplot: 'False'
     style1: '1'

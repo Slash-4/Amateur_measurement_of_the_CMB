@@ -91,7 +91,7 @@ class gnu_radio_controller(gr.top_block, Qt.QWidget):
         self.intermediate_rate = intermediate_rate = 1000
         self.ingest_data = ingest_data = 0
         self.file_write_rate = file_write_rate = 10
-        self.file_path = file_path = '/home/slash/Desktop/Phys 258/Phys_258_Final_Project/Amateur_measurement_of_the_CMB/data/cold_load_foam2'
+        self.file_path = file_path = '/home/slash/Desktop/Phys 258/Phys_258_Final_Project/Amateur_measurement_of_the_CMB/data/day2_skydata13'
         self.center_frequency = center_frequency = 1450E6
         self.calibrate = calibrate = 0
         self.average_power = average_power = 3
@@ -292,7 +292,7 @@ class gnu_radio_controller(gr.top_block, Qt.QWidget):
         for c in range(0, 2):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
-            1024, #size
+            1000, #size
             intermediate_rate, #samp_rate
             'Radiometer Time Sink', #name
             1, #number of inputs
