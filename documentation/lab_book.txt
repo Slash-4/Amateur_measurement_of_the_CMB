@@ -94,3 +94,9 @@ Number Deg Left/Right Deg Up/down
 11. 30.2, 1.5
 12. 36.1, 0.5
 13. 40.9, 0.2 
+
+Hot load 10 aluminium shielding minimum foam 
+Foam at 66F +- 1
+
+Cold load 10 aluminium shielding and minimum foam + liquid nitrogen
+Foam at -100F

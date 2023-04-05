@@ -196,7 +196,7 @@ blocks:
     gui_hint: 12,0,1,2
     label: File path
     type: string
-    value: /home/slash/Desktop/Phys 258/Phys_258_Final_Project/Amateur_measurement_of_the_CMB/data/day2_skydata13
+    value: /home/slash/Desktop/Phys 258/Phys_258_Final_Project/Amateur_measurement_of_the_CMB/data/day2_cold_load_cal10
   states:
     bus_sink: false
     bus_source: false
