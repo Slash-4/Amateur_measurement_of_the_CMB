@@ -1,0 +1,50 @@
+id: calibration_block
+label: Calibration of T_sys and Rho
+category: '[GRC Hier Blocks]'
+
+parameters:
+-   id: T_cold
+    label: T_cold
+    dtype: real
+    default: '200'
+    hide: none
+-   id: T_hot
+    label: T_hot
+    dtype: real
+    default: '77'
+    hide: none
+-   id: samp_rate
+    label: samp_rate
+    dtype: real
+    default: 32k
+    hide: none
+
+inputs:
+-   label: P_hot
+    dtype: float
+    vlen: 1
+-   label: P_cold
+    dtype: float
+    vlen: 1
+
+outputs:
+-   label: T_sys
+    dtype: float
+    vlen: 1
+-   label: rho
+    dtype: float
+    vlen: 1
+
+templates:
+    imports: 'from calibration_block import calibration_block  # grc-generated hier_block'
+    make: "calibration_block(\n    T_cold=${ T_cold },\n    T_hot=${ T_hot },\n  \
+        \  samp_rate=${ samp_rate },\n)"
+    callbacks:
+    - set_T_cold(${ T_cold })
+    - set_T_hot(${ T_hot })
+    - set_samp_rate(${ samp_rate })
+
+documentation: /home/slash/Desktop/Phys 258/Phys_258_Final_Project/Amateur_measurement_of_the_CMB/scripts/data_analysis/calibration_block.py
+grc_source: /home/slash/Desktop/Phys 258/Phys_258_Final_Project/Amateur_measurement_of_the_CMB/scripts/data_analysis/calibration_block.grc
+
+file_format: 1

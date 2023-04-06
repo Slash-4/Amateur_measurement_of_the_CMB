@@ -14,3 +14,89 @@ take the data from a usb cable.
 \\TODO: 1. Horn antenna assembly
 \\TODO: 2. Receive and add bias tee and LNB to the circuit
 \\TODO: 3. Get a hold of dewar flask and liquid nitrogen for cold load calibration
+
+10/03/2023
+
+Received LNB and bias tee
+Tested bias tee with voltmeter, revealed that bias tee lowers input voltage 12V 0.5A outputs 6.66VDC at 
+RF+DC port, outputs 0.00V at RF port
+
+Airspy r2 connects with software properly, measures environmental/system input as 0.4E-6 dB 
+
+\\TODO: 1. Horn antenna assembly
+\\TODO: 2. Dewar flask insulation foam and liquid nitrogen
+\\TODO: 3. Connect bias tee to LNB
+
+
+27/03/2023
+
+Tested software ingest system with the SDR, functions as expected. LNB and power supply ready to be used.
+Horn antenna will be assembled today. The previous testing of the bias tee concluded that only 6V were going
+into the system but this was an error because the voltmeter used was actually calibrated to display half 
+the true voltage, the true voltage was actually 12V and the meter on the power suply is accurate to the load
+delivered.
+
+\\TODO: 1. Dewar flask
+\\TODO: 2. Take measurements
+
+Ambiant temp 276
+Angle recorded +- 0.1deg
+
+Day two:
+Note today the sun is up and high in the sky might heat up foam
+
+Temperature ambiant: 60F +- 1
+Temperature ambiant: 288.7056K
+
+System functions as expected sun might interfere with measurements
+
+foam temp seems to rize
+Foam temp: 64.5F
+Foam temp: 291.2056K
+
+Hot load 1 ran for 40sec at above temp, may have been undervolted
+
+Foam temp: 66.0F
+Foam temp: 292.0389K
+
+Hot load 2 ran for 1min at above temp, may have been undervolted
+
+For hot load three I decided to place the horn sideways and stuff foam into it to try out that method
+Foam temp: 64.5F
+
+
+Hot load 4 
+Foam temp: 99F
+
+Hot load 5:
+Ground cover aluminium and 
+
+After cold load1 foam was up to 150K
+
+During cold load 2 amps had to be increased
+After cold load2 there was still liquid nitrogen boiling near the surface so we can assume the foam was cold
+
+Cold load 4 added aluminum ground cover with liquid nitrogen on surface and foam in dewar flask
+
+
+Day 2 Sky measurements
+Number Deg Left/Right Deg Up/down
+1. 1.1, 0.6
+2. 2.3, 1.0
+3. 4.0, 1.8
+4. 6.0, 1.8
+5. 7.8, 2.0
+6. 10.6, 1.5
+7. 12.8, 1.8
+8. 15.0, 1.5
+9. 20.1, 1.1
+10. 25.0, 2.0
+11. 30.2, 1.5
+12. 36.1, 0.5
+13. 40.9, 0.2 
+
+Hot load 10 aluminium shielding minimum foam 
+Foam at 66F +- 1
+
+Cold load 10 aluminium shielding and minimum foam + liquid nitrogen
+Foam at -100F
