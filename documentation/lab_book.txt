@@ -39,8 +39,17 @@ delivered.
 \\TODO: 1. Dewar flask
 \\TODO: 2. Take measurements
 
-Ambiant temp 276
+Ambiant temp 276.45
 Angle recorded +- 0.1deg
+
+angles = [
+    0.9,
+    10.0,
+    20.0,
+    29.5,
+    39.9
+]
+
 
 Day two:
 Note today the sun is up and high in the sky might heat up foam

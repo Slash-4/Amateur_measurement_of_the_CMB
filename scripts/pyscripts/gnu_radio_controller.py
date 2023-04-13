@@ -91,7 +91,7 @@ class gnu_radio_controller(gr.top_block, Qt.QWidget):
         self.intermediate_rate = intermediate_rate = 1000
         self.ingest_data = ingest_data = 0
         self.file_write_rate = file_write_rate = 10
-        self.file_path = file_path = '/home/slash/Desktop/Phys 258/Phys_258_Final_Project/Amateur_measurement_of_the_CMB/data/day2_cold_load_cal10'
+        self.file_path = file_path = '/home/slash/Desktop/Phys 258/Phys_258_Final_Project/Amateur_measurement_of_the_CMB/data/emissivity_white_paper5'
         self.center_frequency = center_frequency = 1450E6
         self.calibrate = calibrate = 0
         self.average_power = average_power = 3
